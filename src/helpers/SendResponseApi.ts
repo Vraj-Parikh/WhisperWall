@@ -12,6 +12,8 @@ export default function SendResponseApi(
       message,
       ...extraInfo,
     },
-    { status }
+    {
+      status,
+    }
   );
 }
