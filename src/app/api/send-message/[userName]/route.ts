@@ -8,7 +8,7 @@ export async function POST(
 ) {
   await dbConnect();
   try {
-    const { userName } = params;
+    const { userName } = await params;
     const { messageToSend } = await request.json();
     const user = await UserModel.findOne({ name: userName });
     if (!user) {
@@ -20,6 +20,7 @@ export async function POST(
       content: messageToSend,
       createdAt: new Date(),
     };
+    console.log(newMessage);
     //TODO push message to user but user message array is of objectid
     return SendResponseApi(true, "Message Sent Successfully", 200);
   } catch (error: any) {
