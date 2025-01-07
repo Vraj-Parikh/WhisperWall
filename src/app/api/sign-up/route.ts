@@ -41,6 +41,7 @@ export async function POST(request: Request) {
         messages: [],
       });
     } else {
+      console.log(user);
       user.password = hashedPassword;
       user.verifyCode = verificationCode;
       user.verifyCodeExpiredAt = expiryDate;

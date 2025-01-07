@@ -7,18 +7,30 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-const MessageCard = () => {
+import CustomIcon from "../common/CustomIcon";
+import { NextPage } from "next";
+export type MessageCardProps = {
+  msgFrom: string;
+  msg: string;
+  sendTime: string;
+};
+const MessageCard: NextPage<MessageCardProps> = ({
+  msg,
+  msgFrom,
+  sendTime,
+}) => {
   return (
-    <Card className="max-w-xl">
+    <Card>
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
+        <CardTitle>Message From {msgFrom}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <p>Card Content</p>
+      <CardContent className="flex gap-2">
+        <CustomIcon name="message-circle-more" />
+        <div className="">
+          <h2>{msg}</h2>
+          <h3 className="text-gray-500 text-sm">{sendTime}</h3>
+        </div>
       </CardContent>
-      <CardFooter>
-        <p>Card Footer</p>
-      </CardFooter>
     </Card>
   );
 };
