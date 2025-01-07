@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -17,9 +17,14 @@ import { SignUpSchemaZod } from "@/schemas/SignUpSchema";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { LoaderCircle } from "lucide-react";
+
+// import CustomIcon from "../common/CustomIcon";
 const SignUpForm = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+  console.log(1);
   const form = useForm<z.infer<typeof SignUpSchemaZod>>({
     resolver: zodResolver(SignUpSchemaZod),
     defaultValues: {
@@ -31,6 +36,15 @@ const SignUpForm = () => {
   });
   const onSubmit = async (values: z.infer<typeof SignUpSchemaZod>) => {
     const { email, password, confirmPassword, userName } = values;
+    const userNameError = form.formState.errors.userName?.message;
+    console.log(userNameError);
+    if (userNameError) {
+      form.setError("userName", {
+        type: "validate",
+        message: "User Name Already Exists",
+      });
+      return;
+    }
     if (password !== confirmPassword) {
       form.setError("confirmPassword", {
         type: "validate",
@@ -39,7 +53,8 @@ const SignUpForm = () => {
       return;
     }
     try {
-      const API_URL = `${process.env.WEBSITE_URL || "http://192.168.1.3:3000"}/api/sign-up`;
+      setIsSubmitting(true);
+      const API_URL = `/api/sign-up`;
       const headers = new Headers();
       headers.append("Content-Type", "application/json");
       const request = new Request(API_URL, {
@@ -47,31 +62,35 @@ const SignUpForm = () => {
         body: JSON.stringify({ username: userName, email, password }),
         headers,
       });
-      const response = await fetch(request);
+      let response = await fetch(request);
+      response = await response.json();
       if (response && response?.success) {
-        router.replace("/dashboard");
-        // form.setValue("userName", "");
-        // form.setValue("email", "");
-        // form.setValue("password", "");
-        // form.setValue("confirmPassword", "");
+        form.setValue("userName", "");
+        form.setValue("email", "");
+        form.setValue("password", "");
+        form.setValue("confirmPassword", "");
+        router.push(`/verify/${userName}`);
       } else {
-        //show toast
         toast({
           description: "Could Not Register User. Please Try Again",
         });
       }
     } catch (error: any) {
       console.error(error);
+    } finally {
+      form.clearErrors();
+      setIsSubmitting(false);
     }
   };
   const val = form.watch("userName");
-  const debouncedSearchTerm = useDebounce(val, 1000);
+  const debouncedSearchTerm = useDebounce(val, 500);
   useEffect(() => {
+    console.log("effect running");
     if (debouncedSearchTerm.trim().length === 0) {
       return;
     }
     try {
-      const API_URL = `${process.env.WEBSITE_URL || "http://192.168.1.3:3000"}/api/is-username-unique`;
+      const API_URL = `/api/is-username-unique`;
       (async () => {
         let response = await fetch(
           `${API_URL}?username=${debouncedSearchTerm}`
@@ -155,8 +174,19 @@ const SignUpForm = () => {
               </FormItem>
             )}
           />
-          <CustomButton className="block mx-auto" type="submit">
-            Sign Up
+          <CustomButton
+            className={`block mx-auto ${isSubmitting && "cursor-not-allowed"}`}
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <div className="flex gap-2 justify-center items-center">
+                <LoaderCircle color="#fff" className="animate-spin" />
+                <h4 className="text-white">Registering</h4>
+              </div>
+            ) : (
+              "Sign Up"
+            )}
           </CustomButton>
         </form>
       </Form>

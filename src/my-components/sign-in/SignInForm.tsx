@@ -25,7 +25,7 @@ const SignInForm = () => {
   const onSubmit = async (values: z.infer<typeof LoginSchemaZod>) => {
     const { email, password } = values;
     try {
-      //   const API_URL = `${process.env.WEBSITE_URL || "http://192.168.1.3:3000"}/api/send-message/${userName}`;
+      //   const API_URL = `/api/send-message/${userName}`;
       //   const headers = new Headers();
       //   headers.append("Content-Type", "application/json");
       //   const request = new Request(API_URL, {

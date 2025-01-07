@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import CustomIcon from "../common/CustomIcon";
 import { NextPage } from "next";
+import { Mail } from "lucide-react";
 export type MessageCardProps = {
   msgFrom: string;
   msg: string;
@@ -25,7 +26,7 @@ const MessageCard: NextPage<MessageCardProps> = ({
         <CardTitle>Message From {msgFrom}</CardTitle>
       </CardHeader>
       <CardContent className="flex gap-2">
-        <CustomIcon name="message-circle-more" />
+        <Mail size={20} />
         <div className="">
           <h2>{msg}</h2>
           <h3 className="text-gray-500 text-sm">{sendTime}</h3>

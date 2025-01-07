@@ -1,6 +1,8 @@
+"use client";
 import MessageCard, {
   type MessageCardProps,
 } from "@/my-components/home/MessageCard";
+import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
   CarouselContent,
@@ -39,8 +41,12 @@ const CarouselCard = () => {
         align: "start",
         loop: true,
       }}
+      plugins={[
+        Autoplay({
+          delay: 3000,
+        }),
+      ]}
     >
-      <CarouselPrevious />
       <CarouselContent>
         {messages.map((item) => (
           <CarouselItem key={item.msg}>
@@ -48,7 +54,6 @@ const CarouselCard = () => {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselNext />
     </Carousel>
   );
 };

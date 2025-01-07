@@ -38,7 +38,7 @@ const SendMessage: NextPage<SendMessageProps> = ({
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       const { anonymousMsg: msg } = data;
-      const API_URL = `${process.env.WEBSITE_URL || "http://192.168.1.3:3000"}/api/send-message/${userName}`;
+      const API_URL = `/api/send-message/${userName}`;
       const headers = new Headers();
       headers.append("Content-Type", "application/json");
       const request = new Request(API_URL, {
@@ -46,6 +46,7 @@ const SendMessage: NextPage<SendMessageProps> = ({
         body: JSON.stringify({ messageToSend: msg }),
         headers,
       });
+      //TODO use axios client side
       const response = await fetch(request);
       if (response.ok) {
         form.setValue("anonymousMsg", "");

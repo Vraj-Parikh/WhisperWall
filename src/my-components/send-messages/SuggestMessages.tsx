@@ -12,7 +12,7 @@ const responseSchema = z.object({
 const fetchSuggestions = async () => {
   let messages: string[] = [];
   try {
-    const API_URL = `${process.env.WEBSITE_URL || "http://192.168.1.3:3000"}/api/ai-suggest-message`;
+    const API_URL = `/api/ai-suggest-message`;
     let response = await fetch(API_URL);
     response = await response.json();
     console.log(response);

@@ -18,6 +18,7 @@ export async function GET(request: Request) {
         {
           success: false,
           message: "username already exists",
+          verifiedUserExist: true,
         },
         { status: 200 }
       );
