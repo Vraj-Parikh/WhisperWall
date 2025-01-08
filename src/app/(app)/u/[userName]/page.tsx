@@ -9,7 +9,7 @@ interface PageProps {
 
 const Page: NextPage<PageProps> = async ({ params }) => {
   const { userName } = await params;
-  const API_URL = `/api/is-username-unique?username=${userName}`;
+  const API_URL = `http://localhost:3000/api/is-username-unique?username=${userName}`;
   let response = await fetch(API_URL);
   response = await response.json();
   if (!response?.verifiedUserExist) {

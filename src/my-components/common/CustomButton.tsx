@@ -12,7 +12,7 @@ const CustomButton: NextPage<CustomButtonProps> = ({
   ...props
 }) => {
   return (
-    <Button className={`${className}`} {...props}>
+    <Button className={`active:scale-95 ${className}`} {...props}>
       {children}
     </Button>
   );

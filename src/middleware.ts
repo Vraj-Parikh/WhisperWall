@@ -1,7 +1,6 @@
 import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-//TODO don't understand
 export { default } from "next-auth/middleware";
 
 export async function middleware(request: NextRequest) {
@@ -12,7 +11,7 @@ export async function middleware(request: NextRequest) {
     (url.pathname.startsWith("/sign-in") ||
       url.pathname.startsWith("/sign-up") ||
       url.pathname.startsWith("/verify") ||
-      url.pathname.startsWith("/"))
+      url.pathname === "/")
   ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }

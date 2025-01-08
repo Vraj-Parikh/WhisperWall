@@ -24,7 +24,6 @@ const SignUpForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
-  console.log(1);
   const form = useForm<z.infer<typeof SignUpSchemaZod>>({
     resolver: zodResolver(SignUpSchemaZod),
     defaultValues: {
@@ -119,7 +118,9 @@ const SignUpForm = () => {
             name="userName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>User Name</FormLabel>
+                <FormLabel className="font-semibold sm:text-base">
+                  User Name
+                </FormLabel>
                 <FormControl>
                   <Input type="text" placeholder="Enter User Name" {...field} />
                 </FormControl>
@@ -132,7 +133,9 @@ const SignUpForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel className="font-semibold sm:text-base">
+                  Email
+                </FormLabel>
                 <FormControl>
                   <Input type="email" placeholder="Enter Email" {...field} />
                 </FormControl>
@@ -145,7 +148,9 @@ const SignUpForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel className="font-semibold sm:text-base">
+                  Password
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="password"
@@ -162,7 +167,9 @@ const SignUpForm = () => {
             name="confirmPassword"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
+                <FormLabel className="font-semibold sm:text-base">
+                  Confirm Password
+                </FormLabel>
                 <FormControl>
                   <Input
                     type="password"
@@ -175,7 +182,7 @@ const SignUpForm = () => {
             )}
           />
           <CustomButton
-            className={`block mx-auto ${isSubmitting && "cursor-not-allowed"}`}
+            className={`sm:!mt-6 font-bold tracking-wider block mx-auto ${isSubmitting && "cursor-not-allowed"}`}
             type="submit"
             disabled={isSubmitting}
           >

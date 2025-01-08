@@ -36,9 +36,8 @@ const messages: MessageCardProps[] = [
 const CarouselCard = () => {
   return (
     <Carousel
-      className="w-10/12 lg:max-w-xl mx-auto"
+      className="w-full mx-auto"
       opts={{
-        align: "start",
         loop: true,
       }}
       plugins={[

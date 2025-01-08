@@ -5,8 +5,8 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   await dbConnect();
   try {
-    const { email, verificationCode } = await request.json();
-    const user = await UserModel.findOne({ email });
+    const { userName, verificationCode } = await request.json();
+    const user = await UserModel.findOne({ name: userName });
     if (!user) {
       return NextResponse.json(
         {

@@ -21,7 +21,7 @@ const MessageCard: NextPage<MessageCardProps> = ({
   sendTime,
 }) => {
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Message From {msgFrom}</CardTitle>
       </CardHeader>
