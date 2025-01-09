@@ -18,6 +18,8 @@ import { useDebounce } from "@uidotdev/usehooks";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { LoaderCircle } from "lucide-react";
+import axios, { AxiosError } from "axios";
+import { ApiResponse } from "@/types/ApiResponse";
 
 // import CustomIcon from "../common/CustomIcon";
 const SignUpForm = () => {
@@ -54,30 +56,22 @@ const SignUpForm = () => {
     try {
       setIsSubmitting(true);
       const API_URL = `/api/sign-up`;
-      const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      const request = new Request(API_URL, {
-        method: "POST",
-        body: JSON.stringify({ username: userName, email, password }),
-        headers,
+      await axios.post(API_URL, {
+        username: userName,
+        email,
+        password,
       });
-      let response = await fetch(request);
-      response = await response.json();
-      if (response && response?.success) {
-        form.setValue("userName", "");
-        form.setValue("email", "");
-        form.setValue("password", "");
-        form.setValue("confirmPassword", "");
-        router.push(`/verify/${userName}`);
-      } else {
-        toast({
-          description: "Could Not Register User. Please Try Again",
-        });
-      }
+      form.reset();
+      router.replace(`/verify/${userName}`);
     } catch (error: any) {
-      console.error(error);
+      const axiosError = error as AxiosError<ApiResponse>;
+      let errorMessage =
+        axiosError.response?.data.message || "Something Went Wrong";
+      toast({
+        title: "Could not register User",
+        description: errorMessage,
+      });
     } finally {
-      form.clearErrors();
       setIsSubmitting(false);
     }
   };
@@ -91,12 +85,10 @@ const SignUpForm = () => {
     try {
       const API_URL = `/api/is-username-unique`;
       (async () => {
-        let response = await fetch(
+        let response = await axios.get<ApiResponse>(
           `${API_URL}?username=${debouncedSearchTerm}`
         );
-        response = await response.json();
-        console.log(response);
-        if (!response || !response?.success) {
+        if (!response.data.success) {
           form.setError("userName", {
             type: "validate",
             message: "User Name Already Exists",

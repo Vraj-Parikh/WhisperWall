@@ -33,7 +33,7 @@ export default function RootLayout({
         >
           <div className="min-h-screen flex flex-col items-stretch">
             <Navbar />
-            <div className="flex-grow flex flex-col">{children}</div>
+            <div className="flex-grow flex flex-col py-4">{children}</div>
             <Footer />
             <Toaster />
           </div>

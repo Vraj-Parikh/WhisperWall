@@ -2,7 +2,6 @@ import {
   Body,
   Container,
   Head,
-  Heading,
   Html,
   Img,
   Link,
@@ -24,12 +23,7 @@ const VerificationEmailTemplate = ({
     <Head />
     <Body style={main}>
       <Container style={container}>
-        <Img
-          src={process.env.NEXT_PUBLIC_EMAIL_LOGO_SRC}
-          width="120"
-          height="120"
-          style={logo}
-        />
+        <Img src={"/logo.png"} width="120" height="120" style={logo} />
         <Text style={tertiary}>Verify Your Identity</Text>
         <Text style={primary}>Hello {username},</Text>
         <Text style={secondary}>Thank you for registering.</Text>

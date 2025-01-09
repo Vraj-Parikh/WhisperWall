@@ -6,8 +6,8 @@ interface MessageProps extends ComponentPropsWithoutRef<"div"> {
 }
 const Message: NextPage<MessageProps> = ({ msg, ...props }) => {
   return (
-    <div {...props} className="border p-2 rounded-md">
-      <h2>{msg}</h2>
+    <div {...props} className="border p-2 lg:p-3 rounded-md">
+      <h2 className="text-xs xxs:text-sm sm:text-base">{msg}</h2>
     </div>
   );
 };

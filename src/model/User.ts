@@ -1,18 +1,6 @@
 import mongoose, { Schema, Document, Types } from "mongoose";
-export interface IMessage extends Document {
-  content: string;
-  createdAt: Date;
-}
-export const MessageSchema = new Schema<IMessage>({
-  content: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+import { IMessage, MessageSchema } from "./Message";
+
 export interface IUser extends Document {
   name: string;
   email: string;
@@ -22,7 +10,7 @@ export interface IUser extends Document {
   verifyCode: string;
   verifyCodeExpiredAt: Date;
   isAcceptingMessage: boolean;
-  messages: Types.ObjectId[];
+  messages: IMessage[];
 }
 const UserSchema = new Schema<IUser>(
   {
@@ -66,10 +54,10 @@ const UserSchema = new Schema<IUser>(
     },
     isAcceptingMessage: {
       type: Boolean,
-      default: false,
+      default: true,
       required: true,
     },
-    messages: [{ type: Schema.Types.ObjectId, ref: "Message" }],
+    messages: [MessageSchema],
   },
   { timestamps: true }
 );

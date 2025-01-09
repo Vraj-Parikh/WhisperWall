@@ -49,11 +49,20 @@ const VerifyCard = ({ userName }: VerifyCardProps) => {
         verificationCode,
       };
       await axios.post<ApiResponse>(API_URL, postData);
-      form.setValue("verificationCode", "");
-      router.push("/sign-in");
+      form.reset();
+      router.replace("/sign-in");
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       let errorMessage = axiosError.response?.data.message;
+      if (errorMessage === "Verification Code Expired") {
+        try {
+          await axios.get(
+            `http://localhost:3000/resend-otp?userName=${userName}`
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      }
       toast({
         title: "Verification Failed",
         description: errorMessage,

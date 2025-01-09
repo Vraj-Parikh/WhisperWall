@@ -18,24 +18,29 @@ const Navbar = () => {
     router.push("/sign-in");
   };
   return (
-    <div className="bg-slate-800">
+    <div className="bg-slate-800 dark:bg-slate-600">
       <div className="container mx-auto py-2.5 xs:py-3 md:py-4 px-6 sm:px-0 flex justify-between items-center">
-        <Link href="/">
-          <Image
-            src={"/logo.png"}
-            alt="logo"
-            width={35}
-            height={35}
-            className="rounded-md"
-            priority
-            quality={100}
-          />
-        </Link>
+        <div className="flex items-center gap-3 sm:gap-6 md:gap-9 lg:gap-12 font-bold tracking-wide">
+          <Link href="/">
+            <Image
+              src={"/logo.png"}
+              alt="logo"
+              width={35}
+              height={35}
+              className="rounded-md"
+              priority
+              quality={100}
+            />
+          </Link>
+          <h2 className="hidden xxs:block text-sm sm:text-lg md:text-xl lg:text-2xl text-white">
+            Whisper Wall
+          </h2>
+        </div>
         <div className="flex items-center justify-center gap-3 xs:gap-5 md:gap-7 lg:gap-10">
           <ToggleThemeSwitch />
           {isAuthenticated ? (
             <CustomButton
-              className="bg-white text-black font-bold tracking-wider"
+              className="bg-white text-black font-bold tracking-wider hover:bg-white hover:scale-95"
               onClick={handleLogOut}
             >
               Log Out

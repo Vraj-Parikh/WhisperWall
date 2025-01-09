@@ -54,10 +54,8 @@ const SignInForm = () => {
         }
       }
       if (result?.url) {
-        console.log(result);
+        form.reset();
         router.push("/dashboard");
-        form.setValue("email", "");
-        form.setValue("password", "");
       }
     } catch (error: any) {
       toast({

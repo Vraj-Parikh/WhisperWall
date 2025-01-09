@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import CustomIcon from "../common/CustomIcon";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { NextPage } from "next";
 import { Mail } from "lucide-react";
 export type MessageCardProps = {
@@ -22,14 +14,16 @@ const MessageCard: NextPage<MessageCardProps> = ({
 }) => {
   return (
     <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Message From {msgFrom}</CardTitle>
+      <CardHeader className="pb-2 px-4">
+        <CardTitle className="text-sm xxs:text-base md:text-lg pl-7">
+          Message From {msgFrom}
+        </CardTitle>
       </CardHeader>
-      <CardContent className="flex gap-2">
-        <Mail size={20} />
+      <CardContent className="flex gap-2 px-4">
+        <Mail size={20} className="shrink-0" />
         <div className="">
-          <h2>{msg}</h2>
-          <h3 className="text-gray-500 text-sm">{sendTime}</h3>
+          <h2 className="text-sm sm:text-base">{msg}</h2>
+          <h3 className="text-gray-500 text-sm italic">{sendTime}</h3>
         </div>
       </CardContent>
     </Card>

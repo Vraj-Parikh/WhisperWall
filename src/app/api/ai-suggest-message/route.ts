@@ -11,27 +11,23 @@ export async function GET() {
   personal or sensitive topics, focusing instead on
   universal themes that encourage friendly interaction. For
   example, your output should be structured like this:
-  'What's a hobby you've recently started? || If you could
-  have dinner with any historical figure, who would it be?||
-  What's a simple thing that makes you happy?'. Ensure the
+  'What's a hobby you've recently started?||If you could
+  have dinner with any historical figure, who would it be?||What's 
+  a simple thing that makes you happy?'. Ensure the
   questions are intriguing, foster curiosity, and
   contribute to a positive and welcoming conversational
   environment.`;
   try {
-    // const { text } = await generateText({
-    //   model: google("gemini-1.5-pro-latest"),
-    //   prompt: prompt,
-    //   maxTokens: 200,
-    //   maxRetries:1
-    // });
-    // let suggestions = text.replace("\n", "").split("||");
-    let suggestions = [
-      "What's something you're learning or want to learn more about?",
-      'If you could travel anywhere in the world right now, where would you go and why?',
-      "What's a small act of kindness that's impacted you or someone you know?"
-    ];
+    const { text } = await generateText({
+      model: google("gemini-1.5-pro-latest"),
+      prompt: prompt,
+      maxRetries: 1,
+      temperature: 1,
+    });
+    let suggestions = text.replace("\n", "").split("||");
+    suggestions = suggestions.sort(() => Math.random() - 0.5);
     return SendResponseApi(true, "Retrived Succesfully", 200, {
-      suggestions
+      suggestions,
     });
   } catch (error: any) {
     return SendResponseApi(false, error?.message, 500);
