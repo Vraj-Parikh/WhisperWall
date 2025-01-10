@@ -50,7 +50,8 @@ const SendMessage: NextPage<SendMessageProps> = ({
       toast({
         title: "Message Sent",
       });
-      form.reset();
+      form.setValue("anonymousMsg", "");
+      console.log("reset form");
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       let errorMessage =

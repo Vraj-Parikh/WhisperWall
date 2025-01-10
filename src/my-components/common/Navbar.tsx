@@ -37,7 +37,7 @@ const Navbar = () => {
           </h2>
         </div>
         <div className="flex items-center justify-center gap-3 xs:gap-5 md:gap-7 lg:gap-10">
-          <ToggleThemeSwitch />
+          {/* <ToggleThemeSwitch /> */}
           {isAuthenticated ? (
             <CustomButton
               className="bg-white text-black font-bold tracking-wider hover:bg-white hover:scale-95"

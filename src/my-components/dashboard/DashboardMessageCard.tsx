@@ -1,25 +1,76 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { X } from "lucide-react";
 import React from "react";
+import axios, { AxiosError } from "axios";
+import { useToast } from "@/hooks/use-toast";
+import { ApiResponse } from "@/types/ApiResponse";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type DashboardMessageCardProps = {
   msg: string;
-  sendData: Date;
+  sendDate: Date;
+  _id: string;
+  handleOnDeleteMessage: (_id: string) => Promise<void>;
 };
-const DashboardMessageCard = ({ msg, sendData }: DashboardMessageCardProps) => {
+const DashboardMessageCard = ({
+  msg,
+  sendDate,
+  _id,
+  handleOnDeleteMessage,
+}: DashboardMessageCardProps) => {
+  const { toast } = useToast();
+  const date = new Date(sendDate);
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+  let formattedDate = formatter.format(date).replace(", ", " ");
   return (
-    <Card className="">
-      <CardContent>
-        <div className="flex justify-between">
-          <div className="">
-            <h2>{msg}</h2>
-          </div>
-          <div className="">
-            <X />
-          </div>
+    <div className="shadow-xl p-3.5 rounded-md border">
+      <div className="flex justify-between gap-2 items-stretch">
+        <div className="space-y-2">
+          <h2 className="text-sm sm:text-base md:text-lg font-bold">{msg}</h2>
+          <h2 className="text-xs sm:text-sm italic">{formattedDate}</h2>
         </div>
-      </CardContent>
-    </Card>
+        <div className="">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <div className="bg-red-600 p-1 xxs:p-1.5 rounded-md scale-75 sm:scale-90">
+                <X strokeWidth={3} color="#fff" size={20} />
+              </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete the
+                  message from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => handleOnDeleteMessage(_id)}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      </div>
+    </div>
   );
 };
 

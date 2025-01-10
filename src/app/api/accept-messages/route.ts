@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     return SendResponseApi(false, error?.message, 500);
   }
 }
-export async function GET(request: Request) {
+export async function GET() {
   await dbConnect();
   try {
     const session = await getServerSession(authOptions);
@@ -59,12 +59,9 @@ export async function GET(request: Request) {
     if (!userToGet) {
       return SendResponseApi(false, "User not found", 400);
     }
-    return SendResponseApi(
-      true,
-      "Retrieved User Accept Status Successfully",
-      200,
-      { acceptStatus: userToGet.isAcceptingMessage }
-    );
+    return SendResponseApi(true, "Retrieved User Accepts Messages", 200, {
+      acceptStatus: userToGet.isAcceptingMessage,
+    });
   } catch (error: any) {
     return SendResponseApi(false, error?.message, 500);
   }

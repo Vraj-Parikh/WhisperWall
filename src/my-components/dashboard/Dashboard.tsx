@@ -1,23 +1,104 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import CustomButton from "../common/CustomButton";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { RefreshCw } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
+import axios, { AxiosError } from "axios";
+import { ApiResponse } from "@/types/ApiResponse";
+import { IMessage } from "@/model/Message";
+import DashboardMessageCard from "./DashboardMessageCard";
 const Dashboard = () => {
-  const { data: session, status } = useSession();
-  console.log(session);
+  const [isFetching, setIsFetching] = useState(false);
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const { data: session } = useSession();
+  const { toast } = useToast();
   const [isAcceptingMessage, setIsAcceptingMessage] = useState<boolean>(
     session?.user.isAcceptionMessages || true
   );
   const linkRef = useRef<HTMLHeadingElement | null>(null);
+  useEffect(() => {
+    const intialSetup = async () => {
+      await fetchMessages();
+      await intialSetUserAcceptingMessage();
+    };
+    intialSetup();
+  }, []);
   const handleCopyLink = () => {
     navigator.clipboard.writeText(
       `http://localhost:3000/u/${session?.user.name}`
     );
+    toast({
+      title: "Link Copied To Clipboard",
+    });
   };
+  async function fetchMessages() {
+    try {
+      setIsFetching(true);
+      const API_URL = "/api/get-messages";
+      const response = await axios.get<
+        ApiResponse & { AllMessages: Array<IMessage> }
+      >(API_URL);
+      console.log(response);
+      setMessages(response.data.AllMessages);
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setIsFetching(false);
+    }
+  }
+  async function intialSetUserAcceptingMessage() {
+    try {
+      const API_URL = "/api/accept-messages";
+      const response = await axios.get<ApiResponse>(API_URL);
+      console.log(response);
+      if (response.data.success) {
+        setIsAcceptingMessage(true);
+      } else {
+        setIsAcceptingMessage(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function toggleAcceptingMessage(checked: boolean) {
+    try {
+      const API_URL = "/api/accept-messages";
+      await axios.post<ApiResponse>(API_URL, {
+        isAcceptingMessage: checked,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsAcceptingMessage(checked);
+    }
+  }
+  async function handleOnDeleteMessage(_id: string) {
+    try {
+      const userName = session?.user.name;
+      console.log(_id, userName);
+      if (!_id || !userName) {
+        throw new Error("Could Not Delete Message");
+      }
+      const API_URL = "/api/delete-message";
+      await axios.post(API_URL, { _id, userName });
+      await fetchMessages();
+      toast({
+        title: "Message Deleted",
+      });
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      const errorMessage = axiosError.response?.data.message;
+      toast({
+        title: "Could Not Delete Message",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    }
+  }
   return (
     <div className="flex-grow container mx-auto flex flex-col gap-1">
       <h1 className=" text-xl xxs:text-2xl md:text-3xl lg:text-4xl font-bold">
@@ -28,7 +109,7 @@ const Dashboard = () => {
       </h2>
       <div className="flex items-stretch">
         <h2
-          className="flex-grow bg-gray-300 text-black xxs:font-bold rounded-l-md border-t-0 text-sm xs:text-base justify-start items-center flex px-2 tracking-wide"
+          className="flex-grow bg-gray-300 text-black xxs:font-bold rounded-l-md border-t-0 text-xs xs:text-base justify-start items-center flex px-2 tracking-wide"
           ref={linkRef}
         >
           {`http://localhost:3000/u/${session?.user.name}`}
@@ -44,24 +125,42 @@ const Dashboard = () => {
         <Switch
           id="accepting-messages"
           checked={isAcceptingMessage}
-          onCheckedChange={(checked) => setIsAcceptingMessage(checked)}
-          className="scale-75 lg:scale-90"
+          onCheckedChange={toggleAcceptingMessage}
+          className="scale-75 md:scale-90"
         />
         <Label htmlFor="accepting-messages">
           <h2
-            className={`font-bold lg:text-xl ${isAcceptingMessage ? "text-green-600" : "text-red-400"}`}
+            className={`font-bold md:text-lg lg:text-xl ${isAcceptingMessage ? "text-green-600" : "text-red-500"}`}
           >
             {!isAcceptingMessage && "Not"} Accepting Message
           </h2>
         </Label>
       </div>
       <CustomButton
-        className="border !p-1.5 sm:!p-2 md:!p-3 self-start mt-2"
+        className={`border !p-1.5 sm:!p-2 md:!p-3 self-start mt-2 ${!isAcceptingMessage && "cursor-not-allowed"}`}
         variant={"ghost"}
+        onClick={fetchMessages}
+        disabled={!isAcceptingMessage || isFetching}
       >
-        <RefreshCw strokeWidth={3} />
+        <RefreshCw
+          strokeWidth={3}
+          className={`${isFetching && "animate-spin"}`}
+        />
       </CustomButton>
-      <Separator className="my-1" />
+      <Separator className="my-1 sm:my-3 md:my-5 lg:my-7" />
+      <div className="max-h-80 sm:max-h-96 overflow-y-auto">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {messages.map(({ content, createdAt, _id }) => (
+            <DashboardMessageCard
+              msg={content}
+              sendDate={createdAt}
+              key={_id}
+              _id={_id ?? ""}
+              handleOnDeleteMessage={handleOnDeleteMessage}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
