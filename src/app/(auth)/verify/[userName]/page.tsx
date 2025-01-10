@@ -11,7 +11,8 @@ interface PageProps {
 const page: NextPage<PageProps> = async ({ params }) => {
   const { userName } = await params;
   const res = await fetch(
-    `http://localhost:3000/api/can-user-verify?userName=${userName}`
+    // `http://localhost:3000/api/can-user-verify?userName=${userName}`
+    `/api/can-user-verify?userName=${userName}`
   );
   const response = await res.json();
   if (!response.success) {

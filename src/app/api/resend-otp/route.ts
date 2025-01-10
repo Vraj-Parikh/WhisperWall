@@ -11,11 +11,14 @@ export async function GET(request: Request) {
       userName: decodeURIComponent(searchParams.get("userName") || ""),
     };
     const { userName } = queryParam;
-    const user = await UserModel.findOne({ user: userName });
+    console.log(userName);
+    const user = await UserModel.findOne({ name: userName });
     if (!user || user.isVerified) {
-      return SendResponseApi(false, "User Not Found || is verified ", 400);
+      const msg = !user ? "User Not Found" : "User is Already Verified";
+      return SendResponseApi(false, msg, 400);
     }
     const newOTP = Math.floor(Math.random() * 1000000).toString();
+    console.log(user);
     user.verifyCode = newOTP;
     const expiryTimeMinutes: number =
       Number(process.env.VERIFYCODE_EXPIRY_TIME_IN_MIN) || 10;

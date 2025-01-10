@@ -3,12 +3,7 @@ import VerificationEmailTemplate from "../../emails/VerificationEmailTemplate";
 import { ApiResponse } from "@/types/ApiResponse";
 import { render } from "@react-email/render";
 import nodemailer from "nodemailer";
-type VerificationEmailParams = {
-  to: string;
-  subject?: string;
-  verificationCode: string;
-  username: string;
-};
+
 const transporter = nodemailer.createTransport({
   service: process.env.NEXT_PUBLIC_NODEMAILER_SERVICE,
   host: process.env.NEXT_PUBLIC_NODEMAILER_HOST,
@@ -19,9 +14,15 @@ const transporter = nodemailer.createTransport({
     pass: process.env.NEXT_PUBLIC_NODEMAILER_PASSWORD,
   },
 });
+type VerificationEmailParams = {
+  to: string;
+  subject?: string;
+  verificationCode: string;
+  username: string;
+};
 export default async function sendVerificationCodeEmail({
   to,
-  subject = "AnonymousMessage | Verification Code",
+  subject = "Whisper Wall | Verification Code",
   verificationCode,
   username,
 }: VerificationEmailParams): Promise<ApiResponse> {

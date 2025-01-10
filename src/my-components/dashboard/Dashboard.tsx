@@ -19,6 +19,11 @@ const Dashboard = () => {
   const [isAcceptingMessage, setIsAcceptingMessage] = useState<boolean>(
     session?.user.isAcceptionMessages || true
   );
+  let sendMessageLink = "";
+  if (session?.user.name) {
+    sendMessageLink = `${window.location.origin}/u/${session?.user.name}`;
+  }
+
   const linkRef = useRef<HTMLHeadingElement | null>(null);
   useEffect(() => {
     const intialSetup = async () => {
@@ -28,9 +33,7 @@ const Dashboard = () => {
     intialSetup();
   }, []);
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(
-      `http://localhost:3000/u/${session?.user.name}`
-    );
+    navigator.clipboard.writeText(sendMessageLink);
     toast({
       title: "Link Copied To Clipboard",
     });
@@ -112,7 +115,7 @@ const Dashboard = () => {
           className="flex-grow bg-gray-300 text-black xxs:font-bold rounded-l-md border-t-0 text-xs xs:text-base justify-start items-center flex px-2 tracking-wide"
           ref={linkRef}
         >
-          {`http://localhost:3000/u/${session?.user.name}`}
+          {sendMessageLink}
         </h2>
         <CustomButton
           className="block rounded-l-none py-1 h-full font-bold"

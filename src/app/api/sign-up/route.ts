@@ -4,10 +4,15 @@ import bcrypt from "bcryptjs";
 import sendVerificationCodeEmail from "@/helpers/sendVerificationEmail";
 import { ApiResponse } from "@/types/ApiResponse";
 
+type RequestBody = {
+  username: string;
+  password: string;
+  email: string;
+};
 export async function POST(request: Request) {
   await dbConnect();
   try {
-    const { username, password, email } = await request.json();
+    const { username, password, email }: RequestBody = await request.json();
     let user = await UserModel.findOne({ email });
     if (user?.isVerified) {
       return Response.json(

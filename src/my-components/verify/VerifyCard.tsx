@@ -56,9 +56,7 @@ const VerifyCard = ({ userName }: VerifyCardProps) => {
       let errorMessage = axiosError.response?.data.message;
       if (errorMessage === "Verification Code Expired") {
         try {
-          await axios.get(
-            `http://localhost:3000/resend-otp?userName=${userName}`
-          );
+          await axios.get(`/api/resend-otp?userName=${userName}`);
         } catch (error) {
           console.error(error);
         }

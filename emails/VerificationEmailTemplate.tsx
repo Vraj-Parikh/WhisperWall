@@ -18,34 +18,38 @@ interface PlaidVerifyIdentityEmailProps {
 const VerificationEmailTemplate = ({
   username,
   verificationCode,
-}: PlaidVerifyIdentityEmailProps) => (
-  <Html>
-    <Head />
-    <Body style={main}>
-      <Container style={container}>
-        <Img src={"/logo.png"} width="120" height="120" style={logo} />
-        <Text style={tertiary}>Verify Your Identity</Text>
-        <Text style={primary}>Hello {username},</Text>
-        <Text style={secondary}>Thank you for registering.</Text>
-        <Text style={secondary}>
-          Enter the following code to finish your registration.
-        </Text>
-        <Section style={codeContainer}>
-          <Text style={code}>{verificationCode}</Text>
-        </Section>
-        <Text style={paragraph}>Not expecting this email?</Text>
-        <Text style={paragraph}>
-          Contact{" "}
-          <Link href="mailto:login@anonymous-message.com" style={link}>
-            login@anonymous-message.com
-          </Link>{" "}
-          if you did not request this code.
-        </Text>
-      </Container>
-      <Text style={footer}>Securely powered by Anonymous Message.</Text>
-    </Body>
-  </Html>
-);
+}: PlaidVerifyIdentityEmailProps) => {
+  const contactEmail =
+    process.env.NEXT_PUBLIC_NODEMAILER_USER || "vrajparikh151@gmail.com";
+  const logoURL = process.env.NEXT_PUBLIC_EMAIL_LOGO_SRC;
+  console.log(logoURL);
+  return (
+    <Html>
+      <Head />
+      <Body style={main}>
+        <Container style={container}>
+          <Text style={tertiary}>Verify Your Identity</Text>
+          <Text style={primary}>Hello {username},</Text>
+          <Text style={secondary}>
+            Enter the following code to finish your registration.
+          </Text>
+          <Section style={codeContainer}>
+            <Text style={code}>{verificationCode}</Text>
+          </Section>
+          <Text style={paragraph}>Not expecting this email?</Text>
+          <Text style={paragraph}>
+            Contact{" "}
+            <Link href={contactEmail} style={link}>
+              {contactEmail}
+            </Link>{" "}
+            if you did not request this code.
+          </Text>
+        </Container>
+        <Text style={footer}>Securely powered by Whisper Wall.</Text>
+      </Body>
+    </Html>
+  );
+};
 
 //TODO doubt
 VerificationEmailTemplate.PreviewProps = {
@@ -62,21 +66,17 @@ const main = {
 const container = {
   backgroundColor: "#ffffff",
   border: "1px solid #eee",
-  borderRadius: "5px",
+  borderRadius: "10px",
   boxShadow: "0 5px 10px rgba(20,50,70,.2)",
   marginTop: "20px",
   maxWidth: "360px",
   margin: "0 auto",
-  padding: "68px 10px 130px 10px",
-};
-
-const logo = {
-  margin: "0 auto",
+  padding: "40px 40px 40px 40px",
 };
 
 const tertiary = {
   color: "#0a85ea",
-  fontSize: "14px",
+  fontSize: "18px",
   fontWeight: 700,
   fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
   height: "16px",
@@ -102,11 +102,11 @@ const primary = {
   color: "#000",
   display: "block",
   fontFamily: "HelveticaNeue-Medium,Helvetica,Arial,sans-serif",
-  fontSize: "20px",
+  fontSize: "18px",
   fontWeight: 600,
-  lineHeight: "24px",
-  // marginBottom: "5",
-  marginTop: "0",
+  lineHeight: "28px",
+  marginBottom: "0",
+  marginTop: "24px",
 };
 
 const codeContainer = {
