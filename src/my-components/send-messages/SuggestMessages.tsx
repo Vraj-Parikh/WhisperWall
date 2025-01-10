@@ -19,7 +19,7 @@ const fetchSuggestions = async () => {
     }
     messages = suggestions;
   } catch (error: any) {
-    console.error(error?.message);
+    console.error(error);
   } finally {
     return messages;
   }

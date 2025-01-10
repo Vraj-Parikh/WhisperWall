@@ -64,12 +64,14 @@ const SignUpForm = () => {
       form.reset();
       router.replace(`/verify/${userName}`);
     } catch (error: any) {
+      console.error(error);
       const axiosError = error as AxiosError<ApiResponse>;
       const errorMessage =
         axiosError.response?.data.message || "Something Went Wrong";
       toast({
         title: "Could not register User",
         description: errorMessage,
+        variant: "destructive",
       });
     } finally {
       setIsSubmitting(false);

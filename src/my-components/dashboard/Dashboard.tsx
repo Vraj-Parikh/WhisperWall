@@ -48,7 +48,7 @@ const Dashboard = () => {
       console.log(response);
       setMessages(response.data.AllMessages);
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
     } finally {
       setIsFetching(false);
     }
@@ -64,7 +64,7 @@ const Dashboard = () => {
         setIsAcceptingMessage(false);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
   async function toggleAcceptingMessage(checked: boolean) {
@@ -74,7 +74,7 @@ const Dashboard = () => {
         isAcceptingMessage: checked,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setIsAcceptingMessage(checked);
     }
@@ -93,6 +93,7 @@ const Dashboard = () => {
         title: "Message Deleted",
       });
     } catch (error) {
+      console.error(error);
       const axiosError = error as AxiosError<ApiResponse>;
       const errorMessage = axiosError.response?.data.message;
       toast({

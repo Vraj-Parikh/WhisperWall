@@ -53,6 +53,7 @@ const SendMessage: NextPage<SendMessageProps> = ({
       form.setValue("anonymousMsg", "");
       console.log("reset form");
     } catch (error) {
+      console.error(error);
       const axiosError = error as AxiosError<ApiResponse>;
       const errorMessage =
         axiosError.response?.data.message || "Something Went Wrong";

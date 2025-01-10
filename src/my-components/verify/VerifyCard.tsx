@@ -52,6 +52,7 @@ const VerifyCard = ({ userName }: VerifyCardProps) => {
       form.reset();
       router.replace("/sign-in");
     } catch (error) {
+      console.error(error);
       const axiosError = error as AxiosError<ApiResponse>;
       const errorMessage = axiosError.response?.data.message;
       if (errorMessage === "Verification Code Expired") {
@@ -79,6 +80,7 @@ const VerifyCard = ({ userName }: VerifyCardProps) => {
         title: "OTP Resend",
       });
     } catch (error) {
+      console.error(error);
       const axiosError = error as AxiosError<ApiResponse>;
       const errorMessage = axiosError.response?.data.message;
       toast({
