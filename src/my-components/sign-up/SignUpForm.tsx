@@ -38,7 +38,6 @@ const SignUpForm = () => {
   const onSubmit = async (values: z.infer<typeof SignUpSchemaZod>) => {
     const { email, password, confirmPassword, userName } = values;
     const userNameError = form.formState.errors.userName?.message;
-    console.log(userNameError);
     if (userNameError) {
       form.setError("userName", {
         type: "validate",
