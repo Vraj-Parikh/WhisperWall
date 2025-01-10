@@ -65,7 +65,7 @@ const SignUpForm = () => {
       router.replace(`/verify/${userName}`);
     } catch (error: any) {
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage =
+      const errorMessage =
         axiosError.response?.data.message || "Something Went Wrong";
       toast({
         title: "Could not register User",
@@ -85,7 +85,7 @@ const SignUpForm = () => {
     try {
       const API_URL = `/api/is-username-unique`;
       (async () => {
-        let response = await axios.get<ApiResponse>(
+        const response = await axios.get<ApiResponse>(
           `${API_URL}?username=${debouncedSearchTerm}`
         );
         if (!response.data.success) {
@@ -100,7 +100,7 @@ const SignUpForm = () => {
     } catch (error: any) {
       console.error(error);
     }
-  }, [debouncedSearchTerm]);
+  }, [form, debouncedSearchTerm]);
   return (
     <div className="w-full">
       <Form {...form}>

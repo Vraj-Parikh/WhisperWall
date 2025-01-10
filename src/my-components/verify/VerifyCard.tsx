@@ -53,7 +53,7 @@ const VerifyCard = ({ userName }: VerifyCardProps) => {
       router.replace("/sign-in");
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage = axiosError.response?.data.message;
+      const errorMessage = axiosError.response?.data.message;
       if (errorMessage === "Verification Code Expired") {
         try {
           await axios.get(`/api/resend-otp?userName=${userName}`);
@@ -73,14 +73,14 @@ const VerifyCard = ({ userName }: VerifyCardProps) => {
   const handleOnResend = async () => {
     try {
       const API_URL = `/api/resend-otp?userName=${userName}`;
-      const response = await axios.get(API_URL);
+      await axios.get(API_URL);
       form.setValue("verificationCode", "");
       toast({
         title: "OTP Resend",
       });
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage = axiosError.response?.data.message;
+      const errorMessage = axiosError.response?.data.message;
       toast({
         title: "Could Not Resend OTP",
         description: errorMessage,

@@ -10,7 +10,7 @@ const fetchSuggestions = async () => {
   let messages: string[] = [];
   try {
     const API_URL = `/api/ai-suggest-message`;
-    let response = await axios.get<ApiResponse & { suggestions: string[] }>(
+    const response = await axios.get<ApiResponse & { suggestions: string[] }>(
       API_URL
     );
     const { success, suggestions } = response.data;

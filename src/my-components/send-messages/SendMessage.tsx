@@ -54,7 +54,7 @@ const SendMessage: NextPage<SendMessageProps> = ({
       console.log("reset form");
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      let errorMessage =
+      const errorMessage =
         axiosError.response?.data.message || "Something Went Wrong";
       toast({
         title: "Could Not Send Message",
@@ -67,7 +67,7 @@ const SendMessage: NextPage<SendMessageProps> = ({
 
   useEffect(() => {
     form.setValue("anonymousMsg", suggestedMessage);
-  }, [suggestedMessage]);
+  }, [form, suggestedMessage]);
   return (
     <div className="w-full space-y-3">
       <Form {...form}>

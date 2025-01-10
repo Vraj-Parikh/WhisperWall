@@ -2,7 +2,6 @@ import UserModel from "@/model/User";
 import dbConnect from "@/lib/dbConnect";
 import bcrypt from "bcryptjs";
 import sendVerificationCodeEmail from "@/helpers/sendVerificationEmail";
-import { ApiResponse } from "@/types/ApiResponse";
 
 type RequestBody = {
   username: string;

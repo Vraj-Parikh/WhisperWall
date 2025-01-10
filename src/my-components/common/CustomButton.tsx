@@ -1,7 +1,7 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { VariantProps } from "class-variance-authority";
 import { NextPage } from "next";
-import React, { ComponentPropsWithRef, PropsWithChildren } from "react";
+import React, { ComponentPropsWithRef } from "react";
 
 interface CustomButtonProps
   extends ComponentPropsWithRef<"button">,

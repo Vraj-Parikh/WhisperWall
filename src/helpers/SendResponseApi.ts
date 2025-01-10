@@ -4,7 +4,7 @@ export default function SendResponseApi(
   success: boolean,
   message: string,
   status: number,
-  extraInfo?: Object
+  extraInfo?: object
 ) {
   return NextResponse.json(
     {

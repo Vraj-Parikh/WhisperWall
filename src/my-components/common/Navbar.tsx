@@ -5,7 +5,6 @@ import Image from "next/image";
 import CustomButton from "./CustomButton";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import ToggleThemeSwitch from "./ToggleThemeSwitch";
 const Navbar = () => {
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";

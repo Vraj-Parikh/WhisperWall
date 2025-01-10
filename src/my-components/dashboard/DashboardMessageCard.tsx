@@ -1,8 +1,5 @@
 import { X } from "lucide-react";
 import React from "react";
-import axios, { AxiosError } from "axios";
-import { useToast } from "@/hooks/use-toast";
-import { ApiResponse } from "@/types/ApiResponse";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,7 +24,6 @@ const DashboardMessageCard = ({
   _id,
   handleOnDeleteMessage,
 }: DashboardMessageCardProps) => {
-  const { toast } = useToast();
   const date = new Date(sendDate);
   const formatter = new Intl.DateTimeFormat("en-US", {
     month: "short",
@@ -37,7 +33,7 @@ const DashboardMessageCard = ({
     minute: "numeric",
     hour12: true,
   });
-  let formattedDate = formatter.format(date).replace(", ", " ");
+  const formattedDate = formatter.format(date).replace(", ", " ");
   return (
     <div className="shadow-xl p-3.5 rounded-md border">
       <div className="flex justify-between gap-2 items-stretch">
