@@ -3,13 +3,15 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import { IMessage } from "@/model/Message";
 
-export async function POST(
-  request: Request,
-  { params }: { params: { userName: string } }
-) {
+type TParams = {
+  params: Promise<{
+    userName: string;
+  }>;
+};
+export async function POST(request: Request, { params }: TParams) {
   await dbConnect();
   try {
-    const { userName } = await params;
+    const userName = (await params).userName;
     const { messageToSend }: { messageToSend: string } = await request.json();
     const user = await UserModel.findOne({ name: userName });
     if (!user) {

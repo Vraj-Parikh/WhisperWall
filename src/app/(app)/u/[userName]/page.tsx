@@ -1,19 +1,23 @@
 import { type NextPage } from "next";
 import Main from "@/my-components/send-messages/Main";
 import { notFound } from "next/navigation";
+
+interface ApiResponse {
+  verifiedUserExist: boolean;
+}
+
 interface PageProps {
-  params: {
+  params: Promise<{
     userName: string;
-  };
+  }>;
 }
 
 const Page: NextPage<PageProps> = async ({ params }) => {
-  const { userName } = await params;
+  const userName = (await params).userName;
   const API_URL = `/api/is-username-unique?username=${userName}`;
-  // const API_URL = `http://localhost:3000/api/is-username-unique?username=${userName}`;
   const response = await fetch(API_URL);
-  const data = await response.json();
-  if (!data?.verifiedUserExist) {
+  const data: ApiResponse = await response.json();
+  if (!data.verifiedUserExist) {
     return notFound();
   }
   return (
