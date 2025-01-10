@@ -14,10 +14,16 @@ interface PageProps {
 
 const Page: NextPage<PageProps> = async ({ params }) => {
   const userName = (await params).userName;
-  const API_URL = `/api/is-username-unique?username=${userName}`;
-  const response = await fetch(API_URL);
-  const data: ApiResponse = await response.json();
-  if (!data.verifiedUserExist) {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const API_URL = `${BASE_URL}/api/is-username-unique?username=${userName}`;
+  try {
+    const response = await fetch(API_URL);
+    const data: ApiResponse = await response.json();
+    if (!data.verifiedUserExist) {
+      return notFound();
+    }
+  } catch (error) {
+    console.error(error);
     return notFound();
   }
   return (

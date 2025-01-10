@@ -45,7 +45,6 @@ const Dashboard = () => {
       const response = await axios.get<
         ApiResponse & { AllMessages: Array<IMessage> }
       >(API_URL);
-      console.log(response);
       setMessages(response.data.AllMessages);
     } catch (error: any) {
       console.error(error);
@@ -57,7 +56,6 @@ const Dashboard = () => {
     try {
       const API_URL = "/api/accept-messages";
       const response = await axios.get<ApiResponse>(API_URL);
-      console.log(response);
       if (response.data.success) {
         setIsAcceptingMessage(true);
       } else {
@@ -82,7 +80,6 @@ const Dashboard = () => {
   async function handleOnDeleteMessage(_id: string) {
     try {
       const userName = session?.user.name;
-      console.log(_id, userName);
       if (!_id || !userName) {
         throw new Error("Could Not Delete Message");
       }
@@ -125,7 +122,7 @@ const Dashboard = () => {
           Copy
         </CustomButton>
       </div>
-      <div className="flex items-center gap-2 mt-2">
+      <div className="flex items-center gap-2 mt-1">
         <Switch
           id="accepting-messages"
           checked={isAcceptingMessage}
@@ -141,7 +138,7 @@ const Dashboard = () => {
         </Label>
       </div>
       <CustomButton
-        className={`border !p-1.5 sm:!p-2 md:!p-3 self-start mt-2 ${!isAcceptingMessage && "cursor-not-allowed"}`}
+        className={`border !p-1.5 sm:!p-2 md:!p-3 self-start mt-0 ${!isAcceptingMessage && "cursor-not-allowed"}`}
         variant={"ghost"}
         onClick={fetchMessages}
         disabled={!isAcceptingMessage || isFetching}

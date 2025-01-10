@@ -58,6 +58,7 @@ const SignInForm = () => {
         router.push("/dashboard");
       }
     } catch (error: any) {
+      console.error(error);
       toast({
         title: "Login Failed",
         description: error?.message,
