@@ -150,7 +150,7 @@ const Dashboard = () => {
       </CustomButton>
       <Separator className="my-1 sm:my-2 md:my-3 lg:my-4" />
       <div className="max-h-80 sm:max-h-96 overflow-y-auto">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-2 sm:gap-3 md:gap-4 lg:gap-5 md:grid-cols-2">
           {messages.map(({ content, createdAt, _id }) => (
             <DashboardMessageCard
               msg={content}
