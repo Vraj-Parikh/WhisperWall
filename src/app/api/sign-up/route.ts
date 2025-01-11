@@ -9,8 +9,8 @@ type RequestBody = {
   email: string;
 };
 export async function POST(request: Request) {
-  await dbConnect();
   try {
+    await dbConnect();
     const { username, password, email }: RequestBody = await request.json();
     let user = await UserModel.findOne({ email });
     if (user?.isVerified) {

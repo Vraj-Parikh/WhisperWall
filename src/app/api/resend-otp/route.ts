@@ -4,8 +4,8 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 
 export async function GET(request: Request) {
-  await dbConnect();
   try {
+    await dbConnect();
     const { searchParams } = new URL(request.url);
     const queryParam = {
       userName: decodeURIComponent(searchParams.get("userName") || ""),

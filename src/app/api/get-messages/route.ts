@@ -11,8 +11,8 @@ const messagePostSchema = z.object({
   //   isAcceptingMessages: z.boolean(),
 });
 export async function GET() {
-  await dbConnect();
   try {
+    await dbConnect();
     const session = await getServerSession(authOptions);
     if (!session) {
       return SendResponseApi(false, "Not Authenticated", 400);

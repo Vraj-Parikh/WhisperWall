@@ -9,8 +9,8 @@ type TParams = {
   }>;
 };
 export async function POST(request: Request, { params }: TParams) {
-  await dbConnect();
   try {
+    await dbConnect();
     const userName = (await params).userName;
     const { messageToSend }: { messageToSend: string } = await request.json();
     const user = await UserModel.findOne({ name: userName });

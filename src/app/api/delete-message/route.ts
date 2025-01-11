@@ -3,8 +3,8 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 
 export async function POST(request: Request) {
-  dbConnect();
   try {
+    dbConnect();
     const { userName, _id }: { userName: string; _id: string } =
       await request.json();
     console.log("running api", _id, userName);

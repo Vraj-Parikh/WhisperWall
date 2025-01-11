@@ -16,7 +16,7 @@ const CreateAccount = () => {
         className="block mx-auto xxs:font-bold"
         onClick={navigateToSignUp}
       >
-        Create Your Account
+        Create Account
       </CustomButton>
     </div>
   );

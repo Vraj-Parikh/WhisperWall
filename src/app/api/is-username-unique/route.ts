@@ -2,8 +2,8 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 
 export async function GET(request: Request) {
-  await dbConnect();
   try {
+    await dbConnect();
     const { searchParams } = new URL(request.url);
     const queryParam = {
       //removes space like %20

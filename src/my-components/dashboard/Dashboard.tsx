@@ -23,8 +23,6 @@ const Dashboard = () => {
   if (session?.user.name) {
     sendMessageLink = `${window.location.origin}/u/${session?.user.name}`;
   }
-
-  const linkRef = useRef<HTMLHeadingElement | null>(null);
   useEffect(() => {
     const intialSetup = async () => {
       await fetchMessages();
@@ -101,28 +99,30 @@ const Dashboard = () => {
     }
   }
   return (
-    <div className="flex-grow container mx-auto flex flex-col gap-1">
+    <div className="flex-grow container mx-auto flex flex-col">
       <h1 className=" text-xl xxs:text-2xl md:text-3xl lg:text-4xl font-bold">
         User Dashboard
       </h1>
       <h2 className="text-sm sm:text-base xxs:font-bold mt-1">
         Copy Your Unique Link
       </h2>
-      <div className="flex items-stretch">
-        <h2
-          className="flex-grow bg-gray-300 text-black xxs:font-bold rounded-l-md border-t-0 text-xs xs:text-base justify-start items-center flex px-2 tracking-wide"
-          ref={linkRef}
-        >
-          {sendMessageLink}
-        </h2>
-        <CustomButton
-          className="block rounded-l-none py-1 h-full font-bold"
-          onClick={handleCopyLink}
-        >
-          Copy
-        </CustomButton>
-      </div>
-      <div className="flex items-center gap-2 mt-1">
+      {sendMessageLink && (
+        <div className="flex !items-stretch my-1 sm:my-2 md:my-3">
+          <h2
+            className="flex-grow bg-gray-300 text-black xxs:font-bold rounded-l-md border-t-0 text-xs xs:text-base justify-start items-center flex 
+          px-2 md:px-4 tracking-wide sm:py-2"
+          >
+            {sendMessageLink}
+          </h2>
+          <div
+            className="rounded-l-none flex justify-center items-center rounded-r-md px-2 sm:px-4 py-1 bg-black text-white text-xs xs:text-sm sm:text-base md:text-lg cursor-pointer"
+            onClick={handleCopyLink}
+          >
+            <h1>Copy</h1>
+          </div>
+        </div>
+      )}
+      <div className="flex items-center gap-2 sm:my-1">
         <Switch
           id="accepting-messages"
           checked={isAcceptingMessage}
@@ -138,7 +138,7 @@ const Dashboard = () => {
         </Label>
       </div>
       <CustomButton
-        className={`border !p-1.5 sm:!p-2 md:!p-3 self-start mt-0 ${!isAcceptingMessage && "cursor-not-allowed"}`}
+        className={`scale-75 sm:scale-90 md:scale-100 border !p-1.5 sm:!p-2 self-start mt-0 ${!isAcceptingMessage && "cursor-not-allowed"}`}
         variant={"ghost"}
         onClick={fetchMessages}
         disabled={!isAcceptingMessage || isFetching}
@@ -148,7 +148,7 @@ const Dashboard = () => {
           className={`${isFetching && "animate-spin"}`}
         />
       </CustomButton>
-      <Separator className="my-1 sm:my-3 md:my-5 lg:my-7" />
+      <Separator className="my-1 sm:my-2 md:my-3 lg:my-4" />
       <div className="max-h-80 sm:max-h-96 overflow-y-auto">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {messages.map(({ content, createdAt, _id }) => (

@@ -35,7 +35,7 @@ const DashboardMessageCard = ({
   });
   const formattedDate = formatter.format(date).replace(", ", " ");
   return (
-    <div className="shadow-xl p-3.5 rounded-md border">
+    <div className="shadow-lg p-3.5 rounded-md border">
       <div className="flex justify-between gap-2 items-stretch">
         <div className="space-y-2">
           <h2 className="text-sm sm:text-base md:text-lg font-bold">{msg}</h2>
